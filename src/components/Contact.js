@@ -1,8 +1,26 @@
 import React from 'react'
 import Line from '../images/Line.png'
-
+import {useRef  } from 'react';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
+  //email sending 
+  const form = useRef();
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs.sendForm('service_bt2q0z7', 'template_kwl0ojh', form.current, 'Yz16g8qPG_-f9ArRT')
+      .then((result) => {
+          console.log(result.text);
+          window.alert('Email sent successfully!');
+          window.location.reload();
+      }, (error) => {
+          console.log(error.text);
+          window.alert('Failed to send email. Please try again later.');
+      });
+    };
+
   return (
     <div>
       <div className="container p-8 mx-auto">
@@ -40,26 +58,26 @@ const Contact = () => {
         </div>
       </div>
     </div>
-    <div className='bg-[#F7F7FA] pb-5'>
+    <div className='bg-[#eaeaec] pb-5'>
     <div className="flex justify-center deco-line">
         <img src={Line} alt="" className='w-[70px] h-[5px] mt-8' />
       </div> 
           <h2 className="mt-4 mb-4 text-2xl font-bold text-center">Leave a Message</h2>
-          <div className='flex justify-center'>
-          <form className="space-y-4 w-[500px] ">
+          <div className='flex justify-center px-4'>
+          <form ref={form} onSubmit={sendEmail}  className="space-y-4 w-[500px] ">
             <div>
               <label htmlFor="name" className="block mb-1 text-lg font-medium">Name</label>
-              <input type="text" id="name" name="name" placeholder="Your name" className="w-full px-3 py-2 border rounded-md" />
+              <input type="text" id="name" name="user_name" placeholder="Your name" className="w-full px-3 py-2 border rounded-md" />
             </div>
             <div>
               <label htmlFor="email" className="block mb-1 text-lg font-medium">Email</label>
-              <input type="email" id="email" name="email" placeholder="Your email" className="w-full px-3 py-2 border rounded-md" />
+              <input type="email" id="email" name="user_email" placeholder="Your email" className="w-full px-3 py-2 border rounded-md" />
             </div>
             <div>
               <label htmlFor="message" className="block mb-1 text-lg font-medium">Message</label>
               <textarea id="message" name="message" placeholder="Your message" className="w-full px-3 py-2 border rounded-md"></textarea>
             </div>
-            <button type="submit" className="px-4 py-2 text-center text-white transition duration-300  text-gradient">Send Message</button>
+            <button type="submit" className="px-4 py-2 text-center text-white transition duration-300 text-gradient">Send Message</button>
           </form>
         </div>
         </div>
